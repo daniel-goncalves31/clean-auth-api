@@ -1,0 +1,14 @@
+{
+  "name": "clean-auth-ts",
+  "version": "1.0.0",
+  "main": "src/server.ts",
+  "license": "MIT",
+  "dependencies": {},
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "Daniel Gonçalves Gonzaga",
+  "description": "An auth system for practice the Clean Architecture"
+}
