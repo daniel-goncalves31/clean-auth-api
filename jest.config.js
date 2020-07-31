@@ -5,8 +5,8 @@ module.exports = {
   moduleNameMapper: {
     "^src/(.*)$": "<rootDir>/src/$1"
   },
-  testMatch: ['src/**/*.spec.ts', 'src/**/*.test.ts'],
+  testMatch: ["src/**/*.spec.ts", "src/**/*.test.ts"],
   transform: {
-    '.+\\.ts$': 'ts-jest'
+    ".+\\.ts$": "ts-jest"
   }
-};
+}
