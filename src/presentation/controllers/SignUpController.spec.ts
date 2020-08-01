@@ -36,4 +36,11 @@ describe('SignUpController', () => {
     await sut.handle(fakeHttpRequest)
     expect(validatorStub.validate).toHaveBeenCalledWith(fakeHttpRequest.body)
   })
+  test('should return 400 if Validator return an error', async () => {
+    const { sut, validatorStub } = makeSut()
+    validatorStub.validate.mockReturnValueOnce(new Error())
+
+    const res = await sut.handle(fakeHttpRequest)
+    expect(res).toEqual(badRequest(new Error()))
+  })
 })
