@@ -1,9 +1,10 @@
 import { HttpRequest, HttpResponse } from '../protocols/http'
 import { badRequest } from '../protocols/http-responses'
 import { MissingParamError, InvalidParamError } from '../protocols/errors'
+import { Controller } from '../protocols/Controller'
 
-export class SignUpController {
-  handle (httpRequest: HttpRequest): HttpResponse {
+export class SignUpController implements Controller {
+  async handle (httpRequest: HttpRequest): Promise<HttpResponse> {
     const { body } = httpRequest
 
     if (!body.name) {

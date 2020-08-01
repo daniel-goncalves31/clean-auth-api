@@ -1,5 +1,4 @@
 import { RequiredFieldValidator } from './RequiredFieldValidator'
-import { HttpRequest } from '../protocols/http'
 import { MissingParamError } from '../protocols/errors'
 
 interface SutType {
