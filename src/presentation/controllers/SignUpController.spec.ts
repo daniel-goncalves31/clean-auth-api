@@ -1,7 +1,7 @@
 import { SignUpController } from './SignUpController'
 import { HttpRequest } from '../protocols/http'
-import { MissingParamError } from '../protocols/errors/MissingParamError'
 import { badRequest } from '../protocols/http-responses'
+import { MissingParamError, InvalidParamError } from '../protocols/errors'
 
 interface SutType {
   sut: SignUpController
@@ -68,6 +68,22 @@ describe('SignUpController', () => {
     const httpResponse = sut.handle(httpRequest)
     expect(httpResponse).toEqual(
       badRequest(new MissingParamError('confirmPassword'))
+    )
+  })
+  test('should return 400 if confirmPassword is not equal to password', () => {
+    const { sut } = makeSut()
+    const httpRequest: HttpRequest = {
+      body: {
+        name: 'any_name',
+        email: 'any_email@email.com',
+        password: 'any_password',
+        confirmPassword: 'other_password'
+      }
+    }
+
+    const httpResponse = sut.handle(httpRequest)
+    expect(httpResponse).toEqual(
+      badRequest(new InvalidParamError('confirmPassword'))
     )
   })
 })
