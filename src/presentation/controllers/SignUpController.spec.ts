@@ -1,4 +1,4 @@
-import { SignUpController } from './SignUpController'
+import { SignUpController } from '@/presentation/controllers/SignUpController'
 
 interface SutType {
   sut: SignUpController
