@@ -14,6 +14,10 @@ export class SignUpController {
       return badRequest(new MissingParamError('email'))
     }
 
-    return badRequest(new MissingParamError('password'))
+    if (!body.password) {
+      return badRequest(new MissingParamError('password'))
+    }
+
+    return badRequest(new MissingParamError('confirmPassword'))
   }
 }
