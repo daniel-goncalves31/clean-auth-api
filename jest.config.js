@@ -1,15 +1,12 @@
 module.exports = {
   clearMocks: true,
-  coverageDirectory: "coverage",
-  testEnvironment: "node",
-  moduleNameMapper: {
-    "^src/(.*)$": "<rootDir>/src/$1"
-  },
-  testMatch: ["src/**/*.spec.ts", "src/**/*.test.ts"],
+  coverageDirectory: 'coverage',
+  testEnvironment: 'node',
+  testMatch: ['<rootDir>/src/**/*.spec.ts', '<rootDir>/src/**/*.test.ts'],
   transform: {
-    ".+\\.ts$": "ts-jest"
+    '.+\\.ts$': 'ts-jest'
   },
   moduleNameMapper: {
-    "@/(.*)": "<rootDir>/src/$1"
+    '@/(.*)': '<rootDir>/src/$1'
   }
 }
