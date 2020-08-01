@@ -25,4 +25,15 @@ describe('MatchFieldValidator', () => {
     const response = sut.validate(input)
     expect(response).toEqual(new InvalidParamError('field2'))
   })
+  test('should return null if the fields match', () => {
+    const { sut } = makeSut()
+
+    const input = {
+      field1: 'any_value',
+      field2: 'any_value'
+    }
+
+    const response = sut.validate(input)
+    expect(response).toBeNull()
+  })
 })
