@@ -1,5 +1,5 @@
-import { Validator } from '../protocols/Validator'
-import { InvalidParamError } from '../protocols/errors'
+import { Validator } from '../../protocols/Validator'
+import { InvalidParamError } from '../../protocols/errors'
 
 export class MatchFieldValidator implements Validator {
   constructor (

@@ -1,7 +1,7 @@
 import { HttpRequest, HttpResponse } from '../protocols/http'
 import { Controller } from '../protocols/Controller'
 import { Validator } from '../protocols/Validator'
-import { badRequest } from '../protocols/http-responses'
+import { badRequest } from '../helpers/http-responses'
 
 export class SignUpController implements Controller {
   constructor (private readonly validator: Validator) {}

@@ -1,5 +1,5 @@
 import { MatchFieldValidator } from './MatchFieldValidator'
-import { InvalidParamError } from '../protocols/errors'
+import { InvalidParamError } from '../../protocols/errors'
 
 interface SutType {
   sut: MatchFieldValidator

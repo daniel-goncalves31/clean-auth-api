@@ -1,5 +1,5 @@
 import { RequiredFieldValidator } from './RequiredFieldValidator'
-import { MissingParamError } from '../protocols/errors'
+import { MissingParamError } from '../../protocols/errors'
 
 interface SutType {
   sut: RequiredFieldValidator

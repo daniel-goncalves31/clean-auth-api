@@ -1,6 +1,6 @@
 import { SignUpController } from './SignUpController'
 import { HttpRequest } from '../protocols/http'
-import { badRequest } from '../protocols/http-responses'
+import { badRequest } from '../helpers/http-responses'
 import { MockProxy, mock } from 'jest-mock-extended'
 import { Validator } from '../protocols/Validator'
 
