@@ -60,5 +60,15 @@ describe('DbAddUserUseCase', () => {
         password: 'hash_password'
       })
     })
+    test('should throw if the repository throws', async () => {
+      const { sut, addUserRepositoryStub } = makeSut()
+      addUserRepositoryStub.add.mockImplementationOnce(() => {
+        throw new Error()
+      })
+
+      const result = sut.add(fakeNewUser)
+
+      await expect(result).rejects.toThrow()
+    })
   })
 })
