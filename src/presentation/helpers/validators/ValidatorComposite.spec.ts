@@ -32,4 +32,10 @@ describe('ValidatorComposite', () => {
     const error = sut.validate({})
     expect(error).toEqual(new Error())
   })
+  test('should return null if all validators pass', () => {
+    const { sut } = makeSut()
+
+    const error = sut.validate({})
+    expect(error).toBeNull()
+  })
 })
