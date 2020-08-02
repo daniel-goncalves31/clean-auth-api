@@ -1,6 +1,6 @@
 import { SignUpController } from './SignUpController'
 import { HttpRequest } from '../protocols/http'
-import { badRequest } from '../helpers/http-responses'
+import { badRequest, serverError } from '../helpers/http-responses'
 import { MockProxy, mock } from 'jest-mock-extended'
 import { Validator } from '../protocols/Validator'
 import { AddUserUseCase } from '@/domain/usercases/AddUser'
@@ -56,6 +56,16 @@ describe('SignUpController', () => {
       const newUser = fakeHttpRequest.body
       delete newUser.confirmPassword
       expect(addUserUseCaseStub.add).toHaveBeenCalledWith(newUser)
+    })
+    test('should returns an ServerError if the AddUser throws', async () => {
+      const { sut, addUserUseCaseStub } = makeSut()
+      addUserUseCaseStub.add.mockImplementationOnce(() => {
+        throw new Error()
+      })
+
+      const httpResponse = await sut.handle(fakeHttpRequest)
+
+      expect(httpResponse).toEqual(serverError())
     })
   })
 })
