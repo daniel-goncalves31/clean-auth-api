@@ -3,19 +3,23 @@ import { HttpRequest } from '../protocols/http'
 import { badRequest } from '../helpers/http-responses'
 import { MockProxy, mock } from 'jest-mock-extended'
 import { Validator } from '../protocols/Validator'
+import { AddUserUseCase } from '@/domain/usercases/AddUser'
 
 interface SutType {
   sut: SignUpController
   validatorStub: MockProxy<Validator>
+  addUserUseCaseStub: MockProxy<AddUserUseCase>
 }
 
 const makeSut = (): SutType => {
   const validatorStub = mock<Validator>()
-  const sut = new SignUpController(validatorStub)
+  const addUserUseCaseStub = mock<AddUserUseCase>()
+  const sut = new SignUpController(validatorStub, addUserUseCaseStub)
 
   return {
     sut,
-    validatorStub
+    validatorStub,
+    addUserUseCaseStub
   }
 }
 
@@ -29,17 +33,29 @@ const fakeHttpRequest: HttpRequest = {
 }
 
 describe('SignUpController', () => {
-  test('should call Validator with correct value', async () => {
-    const { sut, validatorStub } = makeSut()
+  describe('Validator', () => {
+    test('should call Validator with correct value', async () => {
+      const { sut, validatorStub } = makeSut()
 
-    await sut.handle(fakeHttpRequest)
-    expect(validatorStub.validate).toHaveBeenCalledWith(fakeHttpRequest.body)
+      await sut.handle(fakeHttpRequest)
+      expect(validatorStub.validate).toHaveBeenCalledWith(fakeHttpRequest.body)
+    })
+    test('should return 400 if Validator return an error', async () => {
+      const { sut, validatorStub } = makeSut()
+      validatorStub.validate.mockReturnValueOnce(new Error())
+
+      const res = await sut.handle(fakeHttpRequest)
+      expect(res).toEqual(badRequest(new Error()))
+    })
   })
-  test('should return 400 if Validator return an error', async () => {
-    const { sut, validatorStub } = makeSut()
-    validatorStub.validate.mockReturnValueOnce(new Error())
+  describe('AddUserUseCase', () => {
+    test('should call AddUser with correct values', async () => {
+      const { sut, addUserUseCaseStub } = makeSut()
+      await sut.handle(fakeHttpRequest)
 
-    const res = await sut.handle(fakeHttpRequest)
-    expect(res).toEqual(badRequest(new Error()))
+      const newUser = fakeHttpRequest.body
+      delete newUser.confirmPassword
+      expect(addUserUseCaseStub.add).toHaveBeenCalledWith(newUser)
+    })
   })
 })
