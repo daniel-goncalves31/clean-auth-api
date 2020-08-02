@@ -30,4 +30,12 @@ describe('EmailValidator', () => {
 
     expect(error).toEqual(new InvalidParamError('email'))
   })
+  test('should return return null if the validator returns true', () => {
+    const { sut } = makeSut()
+
+    const input = { email: 'valid_email@email.com' }
+    const error = sut.validate(input)
+
+    expect(error).toBeNull()
+  })
 })
