@@ -1,7 +1,6 @@
 import { SignUpController } from './SignUpController'
 import { HttpRequest } from '../protocols/http'
 import { badRequest } from '../protocols/http-responses'
-import { MissingParamError, InvalidParamError } from '../protocols/errors'
 import { MockProxy, mock } from 'jest-mock-extended'
 import { Validator } from '../protocols/Validator'
 
