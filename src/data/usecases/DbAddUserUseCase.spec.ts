@@ -24,12 +24,22 @@ describe('DbAddUserUseCase', () => {
     email: 'any_email@email.com',
     password: 'any_password'
   }
+  describe('Encrypter', () => {
+    test('should call encrypter with correct value', async () => {
+      const { sut, encrypterStub } = makeSut()
 
-  test('should call encrypter with correct value', async () => {
-    const { sut, encrypterStub } = makeSut()
+      await sut.add(fakeNewUser)
+      expect(encrypterStub.encrypt).toHaveBeenCalledWith(fakeNewUser.password)
+      expect(encrypterStub.encrypt).toHaveBeenCalledTimes(1)
+    })
+    test('should throw if encrypter throws', async () => {
+      const { sut, encrypterStub } = makeSut()
+      encrypterStub.encrypt.mockImplementationOnce(() => {
+        throw new Error()
+      })
 
-    await sut.add(fakeNewUser)
-    expect(encrypterStub.encrypt).toHaveBeenCalledWith(fakeNewUser.password)
-    expect(encrypterStub.encrypt).toHaveBeenCalledTimes(1)
+      const result = sut.add(fakeNewUser)
+      await expect(result).rejects.toThrow()
+    })
   })
 })
