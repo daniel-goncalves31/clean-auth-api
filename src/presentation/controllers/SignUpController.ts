@@ -1,7 +1,7 @@
 import { HttpRequest, HttpResponse } from '../protocols/http'
 import { Controller } from '../protocols/Controller'
 import { Validator } from '../protocols/Validator'
-import { badRequest, serverError } from '../helpers/http-responses'
+import { badRequest, serverError, ok } from '../helpers/http-responses'
 import { AddUserUseCase } from '@/domain/usercases/AddUser'
 
 export class SignUpController implements Controller {
@@ -17,8 +17,8 @@ export class SignUpController implements Controller {
         return badRequest(error)
       }
       const { name, email, password } = httpRequest.body
-      this.addUserUseCase.add({ name, email, password })
-      return {} as any
+      const user = await this.addUserUseCase.add({ name, email, password })
+      return ok(user)
     } catch (error) {
       return serverError()
     }
