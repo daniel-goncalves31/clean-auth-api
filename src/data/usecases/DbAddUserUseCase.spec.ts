@@ -2,19 +2,26 @@ import { DbAddUserUseCase } from './DbAddUserUseCase'
 import { MockProxy, mock } from 'jest-mock-extended'
 import { Encrypter } from '../protocols/Encrypter'
 import { NewUserModel } from '@/domain/models/NewUser'
+import { AddUserRepository } from '../protocols/AddUserRepository'
 
 interface SutType {
   sut: DbAddUserUseCase
   encrypterStub: MockProxy<Encrypter>
+  addUserRepositoryStub: MockProxy<AddUserRepository>
 }
 
 const makeSut = (): SutType => {
   const encrypterStub = mock<Encrypter>()
-  const sut = new DbAddUserUseCase(encrypterStub)
+  encrypterStub.encrypt.mockReturnValue(Promise.resolve('hash_password'))
+
+  const addUserRepositoryStub = mock<AddUserRepository>()
+
+  const sut = new DbAddUserUseCase(encrypterStub, addUserRepositoryStub)
 
   return {
     sut,
-    encrypterStub
+    encrypterStub,
+    addUserRepositoryStub
   }
 }
 
@@ -40,6 +47,18 @@ describe('DbAddUserUseCase', () => {
 
       const result = sut.add(fakeNewUser)
       await expect(result).rejects.toThrow()
+    })
+  })
+  describe('AddUserRepository', () => {
+    test('should call repository with correct value', async () => {
+      const { sut, addUserRepositoryStub } = makeSut()
+      await sut.add(fakeNewUser)
+
+      expect(addUserRepositoryStub.add).toHaveBeenCalledTimes(1)
+      expect(addUserRepositoryStub.add).toHaveBeenCalledWith({
+        ...fakeNewUser,
+        password: 'hash_password'
+      })
     })
   })
 })
