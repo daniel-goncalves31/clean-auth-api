@@ -11,11 +11,11 @@ export class DbAddUserUseCase implements AddUserUseCase {
   ) {}
 
   async add (newUser: NewUserModel): Promise<UserModel> {
-    const hasedPassword = await this.encrypter.encrypt(newUser.password)
+    const hashedPassword = await this.encrypter.encrypt(newUser.password)
 
     const user = this.addUserRespository.add({
       ...newUser,
-      password: hasedPassword
+      password: hashedPassword
     })
     return user
   }
